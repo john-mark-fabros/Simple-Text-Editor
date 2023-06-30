@@ -6,10 +6,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class TextEditor extends JFrame implements ActionListener{
 
@@ -127,7 +129,32 @@ public class TextEditor extends JFrame implements ActionListener{
         }
 
         if(e.getSource() == openItem) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("."));
+            FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("Text Files", "txt");
+            fileChooser.setFileFilter(extensionFilter);
 
+            int response = fileChooser.showOpenDialog(null);
+
+            if(response == JFileChooser.APPROVE_OPTION) {
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                Scanner openFile = null;
+
+                try {
+                    openFile = new Scanner(file);
+                    if(file.isFile()) {
+                        while(openFile.hasNextLine()) {
+                            String fileContent = openFile.nextLine() +"\n";
+                            textArea.append(fileContent);
+                        }
+                    }
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    openFile.close();
+                }
+
+            }
         }
 
         if(e.getSource() == saveItem) {
