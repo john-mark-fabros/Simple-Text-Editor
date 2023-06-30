@@ -3,6 +3,9 @@ package text_editor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -92,6 +95,10 @@ public class TextEditor extends JFrame implements ActionListener{
         fileMenu.add(saveItem);
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
+
+        openItem.addActionListener(this);
+        saveItem.addActionListener(this);
+        exitItem.addActionListener(this);
         /*
         * END MENU BAR AREA
         * */
@@ -117,6 +124,36 @@ public class TextEditor extends JFrame implements ActionListener{
 
         if(e.getSource() == fontBox) {
             textArea.setFont(new Font(fontBox.getSelectedItem().toString(), Font.PLAIN, textArea.getFont().getSize()));
+        }
+
+        if(e.getSource() == openItem) {
+
+        }
+
+        if(e.getSource() == saveItem) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("."));
+
+            int response = fileChooser.showSaveDialog(null);
+
+            if(response == JFileChooser.APPROVE_OPTION) {
+                File file;
+                PrintWriter fileOut = null;
+
+                file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                try {
+                    fileOut = new PrintWriter(file);
+                    fileOut.println(textArea.getText());
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    fileOut.close();
+                }
+            }
+        }
+
+        if(e.getSource() == exitItem) {
+            System.exit(0);
         }
     }
 }
