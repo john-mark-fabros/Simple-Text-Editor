@@ -13,8 +13,8 @@ public class TextEditor extends JFrame implements ActionListener{
     private JTextArea textArea;
     private JScrollPane scrollPane;
     private JSpinner fontResizespinner;
-
     private JLabel fontLabel;
+    private JButton colorButton;
 
     public TextEditor(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,8 +57,15 @@ public class TextEditor extends JFrame implements ActionListener{
             }
         });
 
+        /*
+        * color button
+        * */
+        colorButton = new JButton("Color: ");
+        colorButton.addActionListener(this);
+
         this.add(fontLabel);
         this.add(fontResizespinner);
+        this.add(colorButton);
         this.add(scrollPane);
         this.setVisible(true);
     }
@@ -66,5 +73,11 @@ public class TextEditor extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource() == colorButton) {
+            JColorChooser colorChooser = new JColorChooser();
+
+            Color color = colorChooser.showDialog(null, "Choose a color", Color.BLACK);
+            textArea.setForeground(color);
+        }
     }
 }
