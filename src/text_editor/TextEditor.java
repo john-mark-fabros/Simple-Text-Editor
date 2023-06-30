@@ -17,6 +17,13 @@ public class TextEditor extends JFrame implements ActionListener{
     private JButton colorButton;
     private JComboBox fontBox;
 
+
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem openItem;
+    private JMenuItem saveItem;
+    private JMenuItem exitItem;
+
     public TextEditor(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Text Editor");
@@ -72,6 +79,24 @@ public class TextEditor extends JFrame implements ActionListener{
         fontBox.addActionListener(this);
         fontBox.setSelectedItem("Arial");
 
+        /*
+        * START MENU BAR AREA
+        * */
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        openItem = new JMenuItem("Open");
+        saveItem = new JMenuItem("Save");
+        exitItem = new JMenuItem("Exit");
+
+        fileMenu.add(openItem);
+        fileMenu.add(saveItem);
+        fileMenu.add(exitItem);
+        menuBar.add(fileMenu);
+        /*
+        * END MENU BAR AREA
+        * */
+
+        this.setJMenuBar(menuBar);
         this.add(fontLabel);
         this.add(fontResizespinner);
         this.add(colorButton);
